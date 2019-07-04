@@ -27,6 +27,8 @@ namespace 贪吃蛇
 
         Direction direction;
 
+        bool allowChangeDirectionFlag = true;
+
         Timer timer = new Timer();//定时器
 
         public GameSnake()
@@ -44,7 +46,6 @@ namespace 贪吃蛇
                     map[i, j] = 0;
                 }
             }
-
             map[15, 14] = 2;//蛇头
             snake.Add(new Node(15, 14));
             map[15, 13] = 1;
@@ -85,6 +86,11 @@ namespace 贪吃蛇
 
         public void UserMove(Keys key)//根据用户按下的方向键 改变蛇的运动方向
         {
+            if(allowChangeDirectionFlag==false)
+            {
+                return;
+            }
+            Direction oldDirection = direction;
             switch(key)
             {
                 case Keys.Up:
@@ -104,6 +110,10 @@ namespace 贪吃蛇
                     break;
 
                 default:break;
+            }
+            if(direction!=oldDirection)
+            {
+                allowChangeDirectionFlag = false;
             }
         }
 
@@ -168,6 +178,8 @@ namespace 贪吃蛇
                 }
 
                 UpdateGrid(map);
+
+                allowChangeDirectionFlag = true;
             }
         }
 
